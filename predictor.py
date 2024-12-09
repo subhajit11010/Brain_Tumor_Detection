@@ -9,7 +9,7 @@ transform = transforms.Compose([
 def predict(image_path,model, device):
   image = Image.open(image_path).convert("RGB")
   image = transform(image).unsqueeze(0).to(device)
-  model.load_state_dict(torch.load('./model.pth', map_location=device, weights_only=True))
+  model.load_state_dict(torch.load('model.pth', map_location=device, weights_only=True))
   model.eval()
   with torch.no_grad():
     output = model(image)

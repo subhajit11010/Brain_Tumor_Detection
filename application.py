@@ -16,14 +16,23 @@ from image_processor import *
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 import google.generativeai as genai
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = models.vgg16(weights = 'VGG16_Weights.DEFAULT')
-model.classifier[6] = nn.Linear(4096,4)
+import gdown
 load_dotenv()
 api_key = os.getenv("API_KEY")
 genai.configure(api_key=api_key)
 
 gen_model = genai.GenerativeModel('gemini-1.5-flash-latest')
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+@st.cache_resource
+def download_model():
+    file_id = "1Ovlm72q3sa6BxobWb-6QKTAF-uv753kZ"
+    url = f'https://drive.google.com/uc?export=download&id={file_id}'
+    gdown.download(url, 'model.pth', quiet=False)
+    model = models.vgg16(weights = 'VGG16_Weights.DEFAULT')
+    model.classifier[6] = nn.Linear(4096,4)
+    return model
+
+model = download_model()
 
 def createForm(prediction):
     st.markdown("<h2 style='text-align: center;'>To get the report fill the details</h2>", unsafe_allow_html=True)
