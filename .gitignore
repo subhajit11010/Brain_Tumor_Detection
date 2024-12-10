@@ -2,3 +2,4 @@ v/
 *.pyc
 __pycache__/
 *.log
+.env

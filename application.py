@@ -13,8 +13,6 @@ from PIL import Image
 from io import BytesIO
 from predictor import *
 from image_processor import *
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
 import google.generativeai as genai
 import gdown
 load_dotenv()
